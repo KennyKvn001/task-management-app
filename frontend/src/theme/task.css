@@ -286,6 +286,92 @@
   background-color: var(--secondary-color);
 }
 
+/* Form Styles */
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+}
+
+/* Select styles based on the provided example */
+.form-select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  transition: var(--transition);
+  appearance: auto;
+}
+
+.form-select:focus {
+  outline: none;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.form-select option {
+  padding: 8px 12px;
+  font-weight: normal;
+}
+
+.form-select option:checked {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--light-text);
+}
+
+.error-message {
+  color: var(--priority-high);
+  background-color: rgba(231, 76, 60, 0.1);
+  padding: 0.8rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.error-close {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-left: 1rem;
+  opacity: 0.6;
+}
+
+.error-close:hover {
+  opacity: 1;
+}
+
 /* Responsive design */
 @media (min-width: 768px) {
   .task-dashboard {

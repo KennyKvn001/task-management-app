@@ -1,93 +1,43 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
 import { Header } from "../components/Header";
 import { CreatedTasksSection } from "../components/CreatedTasksSection";
 import { AssignedTasksSection } from "../components/AssignedTasksSection";
-import { TaskCreationForm} from "../components/TaskCreationForm";
+import { TaskCreationForm } from "../components/TaskCreationForm";
+import { useTask } from "../context/TaskContext";
+import type {Task as TaskType} from "../components/TaskCard";
 import '../theme/task.css';
 
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  status: 'TODO' | 'IN_PROGRESS' | 'COMPLETED';
-  dueDate: string; // ISO date string
-  priority: 'LOW' | 'MEDIUM' | 'HIGH';
-  createdBy: string;
-  assignedTo: string;
-}
-
 export function Task() {
-  const { username } = useAuth();
-  const [createdTasks, setCreatedTasks] = useState<Task[]>([]);
-  const [assignedTasks, setAssignedTasks] = useState<Task[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const {
+    createdTasks,
+    assignedTasks,
+    isLoading,
+    error,
+    fetchTasks,
+    setError
+  } = useTask();
 
-  // In a real app, you would fetch tasks from your API
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const [currentTask, setCurrentTask] = useState<TaskType | undefined>();
+
+  // Single useEffect for initial data load
   useEffect(() => {
-    // Mock data for demonstration purposes
-    // In a real app, replace with API calls
-    const mockTasks = [
-      {
-        id: 1,
-        title: "Complete project proposal",
-        description: "Draft the project proposal for client review",
-        status: 'IN_PROGRESS' as const,
-        dueDate: "2025-06-15T00:00:00",
-        priority: 'HIGH' as const,
-        createdBy: username || "current-user",
-        assignedTo: username || "current-user"
-      },
-      {
-        id: 2,
-        title: "Review design mockups",
-        description: "Check and provide feedback on the new UI designs",
-        status: 'TODO' as const,
-        dueDate: "2025-06-20T00:00:00",
-        priority: 'MEDIUM' as const,
-        createdBy: username || "current-user",
-        assignedTo: "john.doe"
-      },
-      {
-        id: 3,
-        title: "Prepare weekly report",
-        description: "Compile statistics and achievements for the weekly team meeting",
-        status: 'TODO' as const,
-        dueDate: "2025-06-12T00:00:00",
-        priority: 'HIGH' as const,
-        createdBy: "jane.smith",
-        assignedTo: username || "current-user"
-      }
-    ];
-
-    // Filter tasks created by the current user
-    setCreatedTasks(mockTasks.filter(task => task.createdBy === (username || "current-user")));
-
-    // Filter tasks assigned to the current user
-    setAssignedTasks(mockTasks.filter(task => task.assignedTo === (username || "current-user")));
-
-    setIsLoading(false);
-  }, [username]);
+    fetchTasks();
+  }, []);
 
   const handleCreateTask = () => {
-    setShowCreateModal(true);
+    setCurrentTask(undefined);
+    setShowTaskModal(true);
   };
 
-  const handleSaveTask = (taskData: any) => {
-    // In a real app, you would call an API to save the task
-    const newTask: Task = {
-      id: createdTasks.length + assignedTasks.length + 1,
-      title: taskData.title,
-      description: taskData.description,
-      status: taskData.status as 'TODO' | 'IN_PROGRESS' | 'COMPLETED',
-      dueDate: taskData.dueDate,
-      priority: taskData.priority as 'LOW' | 'MEDIUM' | 'HIGH',
-      createdBy: username || "current-user",
-      assignedTo: username || "current-user"
-    };
+  const handleEditTask = (task: TaskType) => {
+    setCurrentTask(task);
+    setShowTaskModal(true);
+  };
 
-    setCreatedTasks(prev => [...prev, newTask]);
+  const handleCloseModal = () => {
+    setShowTaskModal(false);
+    setCurrentTask(undefined);
   };
 
   return (
@@ -102,17 +52,33 @@ export function Task() {
           </button>
         </div>
 
-        <div className="task-sections">
-          <CreatedTasksSection tasks={createdTasks} isLoading={isLoading} />
-          <AssignedTasksSection tasks={assignedTasks} isLoading={isLoading} />
-        </div>
+        {error && (
+          <div className="error-message" onClick={() => setError(null)}>
+            {error}
+            <span className="error-close">×</span>
+          </div>
+        )}
 
-        <TaskCreationForm
-          isOpen={showCreateModal}
-          onClose={() => setShowCreateModal(false)}
-          onSave={handleSaveTask}
+        <CreatedTasksSection
+          tasks={createdTasks}
+          isLoading={isLoading}
+          onEdit={handleEditTask}
+        />
+
+        <AssignedTasksSection
+          tasks={assignedTasks}
+          isLoading={isLoading}
+          onEdit={handleEditTask}
         />
       </div>
+
+      {showTaskModal && (
+        <TaskCreationForm
+          isOpen={showTaskModal}
+          onClose={handleCloseModal}
+          task={currentTask}
+        />
+      )}
     </div>
   );
 }

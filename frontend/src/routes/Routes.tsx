@@ -1,4 +1,5 @@
 import {AuthProvider} from "../context/AuthContext.tsx";
+import {TaskProvider} from "../context/TaskContext.tsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {NotFound} from "../views/NotFound.tsx";
 import {Home} from "../views/Home.tsx";
@@ -34,7 +35,9 @@ const router = createBrowserRouter([
 export function Routes() {
     return (
         <AuthProvider>
-            <RouterProvider router={router} />
+            <TaskProvider>
+                <RouterProvider router={router} />
+            </TaskProvider>
         </AuthProvider>
     );
 }

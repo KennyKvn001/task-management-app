@@ -1,12 +1,13 @@
-import {type Task, TaskCard} from "./TaskCard";
+import { TaskCard, type Task } from "./TaskCard";
 import "../theme/task.css";
 
 interface CreatedTasksSectionProps {
   tasks: Task[];
   isLoading: boolean;
+  onEdit: (task: Task) => void;
 }
 
-export function CreatedTasksSection({ tasks, isLoading }: CreatedTasksSectionProps) {
+export function CreatedTasksSection({ tasks, isLoading, onEdit }: CreatedTasksSectionProps) {
   if (isLoading) {
     return <div className="loading-indicator">Loading tasks...</div>;
   }
@@ -17,7 +18,11 @@ export function CreatedTasksSection({ tasks, isLoading }: CreatedTasksSectionPro
       <div className="task-grid">
         {tasks.length > 0 ? (
           tasks.map(task => (
-            <TaskCard key={`created-${task.id}`} task={task} />
+            <TaskCard
+              key={`created-${task.id}`}
+              task={task}
+              onEdit={onEdit}
+            />
           ))
         ) : (
           <div className="no-tasks-message">

@@ -1,12 +1,13 @@
-import {type Task, TaskCard} from "./TaskCard";
+import { TaskCard, type Task } from "./TaskCard";
 import "../theme/task.css";
 
 interface AssignedTasksSectionProps {
   tasks: Task[];
   isLoading: boolean;
+  onEdit: (task: Task) => void;
 }
 
-export function AssignedTasksSection({ tasks, isLoading }: AssignedTasksSectionProps) {
+export function AssignedTasksSection({ tasks, isLoading, onEdit }: AssignedTasksSectionProps) {
   if (isLoading) {
     return <div className="loading-indicator">Loading tasks...</div>;
   }
@@ -17,7 +18,11 @@ export function AssignedTasksSection({ tasks, isLoading }: AssignedTasksSectionP
       <div className="task-grid">
         {tasks.length > 0 ? (
           tasks.map(task => (
-            <TaskCard key={`assigned-${task.id}`} task={task} />
+            <TaskCard
+              key={`assigned-${task.id}`}
+              task={task}
+              onEdit={onEdit}
+            />
           ))
         ) : (
           <div className="no-tasks-message">
