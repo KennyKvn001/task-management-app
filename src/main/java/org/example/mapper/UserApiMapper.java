@@ -1,4 +1,4 @@
-package org.example.api;
+package org.example.mapper;
 
 import org.example.api.dtos.UserApiDTO;
 import org.example.entities.Address;

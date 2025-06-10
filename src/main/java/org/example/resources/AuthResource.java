@@ -1,4 +1,4 @@
-package org.example.auth.resources;
+package org.example.resources;
 
 import io.quarkus.logging.Log;
 import jakarta.inject.Inject;

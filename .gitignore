@@ -45,4 +45,4 @@ nb-configuration.xml
 .certs/
 
 # keys
-/src/main/resources/keys/*
+/src/main/resources/keys/

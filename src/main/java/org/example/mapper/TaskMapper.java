@@ -1,4 +1,4 @@
-package org.example.task;
+package org.example.mapper;
 
 import org.example.entities.Task;
 import org.example.entities.User;

@@ -4,7 +4,7 @@ import io.quarkus.scheduler.Scheduled;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.example.api.UserApiClient;
-import org.example.api.UserApiMapper;
+import org.example.mapper.UserApiMapper;
 import org.example.api.dtos.UserApiDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.rest.client.inject.RestClient;

@@ -1,4 +1,4 @@
-package org.example.api;
+package org.example.resources;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
