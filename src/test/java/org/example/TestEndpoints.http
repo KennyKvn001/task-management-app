@@ -24,3 +24,16 @@ Content-Type: application/json
     "email": "Sincere@april.biz",
     "password": "testpassword"
 }
+
+### Testing Task Creation
+POST localhost:8080/tasks/new
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ0YXNrLW1hbmFnZW1lbnQtYXBwIiwic3ViIjoiU2luY2VyZUBhcHJpbC5iaXoiLCJncm91cHMiOlsiTUFOQUdFUiJdLCJ1c2VybmFtZSI6IkJyZXQiLCJpYXQiOjE3NDk1ODM0MzEsImV4cCI6MTc0OTY2OTgzMSwianRpIjoiYWE0MWYyMWMtMDQwZC00MjY4LWFkMTAtODMxZTRkOGJkMGVhIn0.IlU1JvK8wvHj_xwkf4H_B_1HS4Y3z3sYdDyRTRAy9pxonPKS4z1UeCL0_z9sEN46dJbW6rvMYqEp2jIAgBBj_78oHrO8x18ulolaJgvU6-Meaer4CVKqZqB3kLL3OVAoWykI0kkoifuArQjAxaurE5bZEe4cu8G5AT3qEj2nx-tZOdu82pH6yGFSGUMZJqiynkpUhKNGJXqALZ99L5xV4py7BbhXqY_pa2mNELIru9GaqCQFy9BexE8OxHSbMG0mACZ4-w0bwDgE841WCT-v95Aza31OwKqtFrUxCIGN6srNiXIoVKQVQ3x5kUuv7CsZ_E7Rz4J52IZbsgFPWdOMLw
+
+{
+  "title": "Test Task",
+  "description": "This is a test task",
+  "dueDate": "2025-06-27",
+  "createdById": 1,
+  "assignedUserIds": [3, 2]
+}

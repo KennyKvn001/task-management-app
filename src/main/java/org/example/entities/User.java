@@ -1,6 +1,7 @@
 package org.example.entities;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Set;
 
@@ -43,12 +44,15 @@ public class User {
     private UserRole role;
 
     @OneToMany(mappedBy = "createdBy")
+    @JsonIgnore
     private Set<Task> createdTasks;
 
     @ManyToMany(mappedBy = "assignedUsers")
+    @JsonIgnore
     private Set<Task> tasksAssigned;
 
     @ManyToMany(mappedBy = "completedUsers")
+    @JsonIgnore
     private Set<Task> tasksCompleted;
 
     public User() {}
@@ -164,4 +168,3 @@ public class User {
         this.tasksCompleted = tasksCompleted;
     }
 }
-

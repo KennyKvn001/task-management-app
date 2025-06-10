@@ -1,35 +1,32 @@
 package org.example.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import org.example.entities.Task;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.example.entities.Task;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @ApplicationScoped
 public class TaskRepository implements PanacheRepository<Task> {
+    public Task findTaskById(Long id) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Task> query = cb.createQuery(Task.class);
+        Root<Task> root = query.from(Task.class);
 
-    @PersistenceContext
-    EntityManager em;
+        query.select(root).where(cb.equal(root.get("id"), id));
 
-    public List<Task> findUpcomingTasks(LocalDate from, LocalDate to) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Task> cq = cb.createQuery(Task.class);
-        Root<Task> taskRoot = cq.from(Task.class);
+        return getEntityManager().createQuery(query).getResultStream().findFirst().orElse(null);
+    }
 
-        LocalDate today = LocalDate.now();
-        LocalDate sevenDaysLater = today.plusDays(7);
+    public List<Task> findAllTasks() {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Task> query = cb.createQuery(Task.class);
+        Root<Task> root = query.from(Task.class);
+        query.select(root);
 
-        Predicate dateRange = cb.between(taskRoot.get("dueDate"), today, sevenDaysLater);
-        cq.select(taskRoot).where(dateRange).distinct(true);
-
-        return em.createQuery(cq).getResultList();
+        return getEntityManager().createQuery(query).getResultList();
     }
 }

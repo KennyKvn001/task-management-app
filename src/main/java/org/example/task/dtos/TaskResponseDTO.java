@@ -8,7 +8,7 @@ public record TaskResponseDTO(
         String title,
         String description,
         LocalDate dueDate,
-        String createdBy,
-        Set<String> assignedUsers,
-        Set<String> completedUsers
+        String createdByUsername,
+        Set<String> assignedUsernames,
+        Set<String> completedUsernames
 ) {}

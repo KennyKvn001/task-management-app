@@ -7,8 +7,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.example.entities.User;
 
-import java.util.Optional;
-
 @ApplicationScoped
 public class UserRepository implements PanacheRepository<User> {
     public User findByEmail(String email) {
@@ -27,6 +25,16 @@ public class UserRepository implements PanacheRepository<User> {
         Root<User> root = query.from(User.class);
 
         query.select(root).where(cb.equal(root.get("username"), username));
+
+        return getEntityManager().createQuery(query).getResultStream().findFirst().orElse(null);
+    }
+
+    public User findById(Long id) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<User> query = cb.createQuery(User.class);
+        Root<User> root = query.from(User.class);
+
+        query.select(root).where(cb.equal(root.get("id"), id));
 
         return getEntityManager().createQuery(query).getResultStream().findFirst().orElse(null);
     }
