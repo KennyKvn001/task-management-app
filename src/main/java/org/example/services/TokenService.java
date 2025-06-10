@@ -23,7 +23,7 @@ public class TokenService {
                     .sign();
         }catch (Exception e){
             Log.info(e);
-            return null;
+            throw new RuntimeException("Failed to generate token");
         }
     }
 }
