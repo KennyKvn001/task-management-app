@@ -1,0 +1,26 @@
+###Testing Api Endpoint
+GET https://jsonplaceholder.typicode.com/users
+Content-Type: application/json
+
+### Testing if external users are syncing
+GET localhost:8080/users
+Content-Type: application/json
+
+### Testing the registration endpoint
+POST localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "username": "Bret",
+  "email": "Sincere@april.biz",
+  "password": "testpassword"
+}
+
+### Testing the login endpoint
+POST localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "email": "Sincere@april.biz",
+    "password": "testpassword"
+}
