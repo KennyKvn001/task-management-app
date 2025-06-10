@@ -52,7 +52,6 @@ public class AuthService {
         String hashedPassword = BCrypt.hashpw(request.password(), BCrypt.gensalt());
         user.setPasswordHash(hashedPassword);
 
-        userRepository.persist(user);
     }
 
     private void validateRegistrationRequest(RegisterRequestDTO request) {

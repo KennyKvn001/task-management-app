@@ -56,7 +56,9 @@ public class UserApiservice {
                 existingUser.setPhone(dto.phone());
                 existingUser.setWebsite(dto.website());
 
-                existingUser.setRole(userRole);
+                if (!hasCustomRole(existingUser)) {
+                    existingUser.setRole(userRole);
+                }
 
                 existingUser.getAddress().setStreet(dto.address().street());
                 existingUser.getAddress().setSuite(dto.address().suite());
@@ -70,6 +72,10 @@ public class UserApiservice {
                 existingUser.getCompany().setBs(dto.company().bs());
             }
         }
+    }
+
+    private boolean hasCustomRole(User user) {
+        return user.getRole() != null && !"USER".equalsIgnoreCase(user.getRole().getRole());
     }
 
     public List<User> getAllUsers() {
