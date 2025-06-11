@@ -1,6 +1,5 @@
 package org.example.services;
 
-import io.quarkus.scheduler.Scheduled;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.example.api.UserApiClient;
@@ -29,8 +28,6 @@ public class UserApiservice {
         this.roleRepository = roleRepository;
     }
 
-//    five minutes
-    @Scheduled(cron ="0 * * * * ?")
     @Transactional
     public void syncUsers() {
 
@@ -82,4 +79,3 @@ public class UserApiservice {
         return userApiRepository.listAll();
     }
 }
-

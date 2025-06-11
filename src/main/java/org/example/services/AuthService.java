@@ -87,6 +87,10 @@ public class AuthService {
             throw new IllegalArgumentException("User is not registered");
         }
 
+        if (!BCrypt.checkpw(loginRequest.password(), user.getPasswordHash())) {
+            throw new IllegalArgumentException("Invalid credentials");
+        }
+
         String token = tokenService.generateToken(user);
 
         return new LoginResponseDTO(token, user.getUsername(), user.getRole().getRole());

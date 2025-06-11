@@ -13,7 +13,7 @@ Content-Type: application/json
 {
   "username": "Bret",
   "email": "Sincere@april.biz",
-  "password": "testpassword"
+  "password": "1234"
 }
 
 ### Testing the login endpoint
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 {
     "email": "Sincere@april.biz",
-    "password": "testpassword"
+    "password": "1234"
 }
 
 ### Testing Task Creation
