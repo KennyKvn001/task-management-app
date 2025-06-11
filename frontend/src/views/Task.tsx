@@ -4,6 +4,7 @@ import { CreatedTasksSection } from "../components/CreatedTasksSection";
 import { AssignedTasksSection } from "../components/AssignedTasksSection";
 import { TaskCreationForm } from "../components/TaskCreationForm";
 import { useTask } from "../context/TaskContext";
+import { useAuth } from "../context/AuthContext";
 import type {Task as TaskType} from "../components/TaskCard";
 import '../theme/task.css';
 
@@ -16,6 +17,8 @@ export function Task() {
     fetchTasks,
     setError
   } = useTask();
+
+  const { isAuthenticated } = useAuth();
 
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [currentTask, setCurrentTask] = useState<TaskType | undefined>();
@@ -47,9 +50,11 @@ export function Task() {
       <div className="task-dashboard">
         <div className="task-dashboard-header">
           <h1>Task Dashboard</h1>
-          <button className="create-task-btn" onClick={handleCreateTask}>
-            Create New Task
-          </button>
+          {isAuthenticated && (
+            <button className="create-task-btn" onClick={handleCreateTask}>
+              Create New Task
+            </button>
+          )}
         </div>
 
         {error && (

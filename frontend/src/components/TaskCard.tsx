@@ -20,9 +20,19 @@ interface TaskCardProps {
 }
 
 export function TaskCard({ task, onEdit }: TaskCardProps) {
-  const { username, role } = useAuth();
-  const { deleteTask } = useTask();
+  const { username, isAuthenticated } = useAuth();
+  const { deleteTask, markTaskAsComplete } = useTask();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
+
+  // Check if current user is the creator of the task
+  const isCreator = username === task.createdBy;
+
+  // Check if current user is assigned to the task
+  const isAssigned = task.assignedTo.split(',').map(name => name.trim()).includes(username);
+
+  // Check if the task is already completed
+  const isCompleted = task.status === 'COMPLETED';
 
   const getStatusClass = (status: string) => {
     switch (status) {
@@ -56,32 +66,59 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
     }
   };
 
-  // Only show delete button for managers
-  const canDelete = role === 'MANAGER';
+  const handleMarkAsComplete = async () => {
+    try {
+      setIsCompleting(true);
+      await markTaskAsComplete(task.id);
+    } catch (error) {
+      console.error("Error marking task as complete:", error);
+    } finally {
+      setIsCompleting(false);
+    }
+  };
 
   return (
     <>
       <div className="task-card">
         <div className="task-card-header">
           <h3>{task.title}</h3>
-          <div className="task-actions">
-            <button
-              className="edit-btn"
-              onClick={() => onEdit(task)}
-              title="Edit task"
-            >
-              ✎
-            </button>
-            {canDelete && (
-              <button
-                className="delete-btn"
-                onClick={handleDelete}
-                title="Delete task"
-              >
-                ×
-              </button>
-            )}
-          </div>
+          {isAuthenticated && (
+            <div className="task-actions">
+              {/* Only creators can edit tasks */}
+              {isCreator && (
+                <button
+                  className="edit-btn"
+                  onClick={() => onEdit(task)}
+                  title="Edit task"
+                >
+                  ✎
+                </button>
+              )}
+
+              {/* Only creators can delete tasks */}
+              {isCreator && (
+                <button
+                  className="delete-btn"
+                  onClick={handleDelete}
+                  title="Delete task"
+                >
+                  ×
+                </button>
+              )}
+
+              {/* Assigned users can mark tasks as complete */}
+              {isAssigned && !isCompleted && (
+                <button
+                  className="complete-btn"
+                  onClick={handleMarkAsComplete}
+                  disabled={isCompleting}
+                  title="Mark as complete"
+                >
+                  ✓
+                </button>
+              )}
+            </div>
+          )}
         </div>
         <p className="task-description">{task.description}</p>
         <div className="task-meta">

@@ -201,192 +201,83 @@
   color: var(--primary-color);
 }
 
-/* Modal styles */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+
+/* Shared status messages */
+.loading-message, .no-users-message {
+  padding: 10px;
+  text-align: center;
+  color: var(--light-text);
+  font-style: italic;
+}
+
+/* Task Actions */
+.task-actions {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  gap: 0.5rem;
 }
 
-.task-modal {
-  background-color: white;
-  border-radius: var(--border-radius);
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.2rem;
-  border-bottom: 1px solid #eee;
-}
-
-.modal-header h2 {
-  margin: 0;
-  color: var(--primary-color);
-  font-size: 1.4rem;
-}
-
-.close-modal-btn {
+.edit-btn, .delete-btn, .complete-btn {
   background: none;
   border: none;
-  font-size: 1.8rem;
-  line-height: 1;
+  font-size: 1.1rem;
   cursor: pointer;
-  color: var(--light-text);
-}
-
-.modal-content {
-  padding: 1.5rem;
-  max-height: 70vh;
-  overflow-y: auto;
-}
-
-.modal-footer {
-  padding: 1rem 1.5rem;
+  padding: 0.2rem;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  border-top: 1px solid #eee;
-}
-
-.cancel-btn, .save-btn {
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--border-radius);
-  font-weight: 500;
-  cursor: pointer;
+  align-items: center;
+  justify-content: center;
   transition: var(--transition);
 }
 
-.cancel-btn {
-  background-color: #f1f1f1;
-  border: none;
-  color: var(--text-color);
-}
-
-.save-btn {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-}
-
-.save-btn:hover {
-  background-color: var(--secondary-color);
-}
-
-/* Form Styles */
-.form-group {
-  margin-bottom: 1.2rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: var(--text-color);
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  font-size: 0.9rem;
-  transition: var(--transition);
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
-}
-
-/* Select styles based on the provided example */
-.form-select {
-  width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  font-size: 0.9rem;
-  transition: var(--transition);
-  appearance: auto;
-}
-
-.form-select:focus {
-  outline: none;
-  border-bottom: 2px solid var(--primary-color);
-}
-
-.form-select option {
-  padding: 8px 12px;
-  font-weight: normal;
-}
-
-.form-select option:checked {
-  color: var(--primary-color);
-  font-weight: bold;
-}
-
-.form-group small {
-  display: block;
-  margin-top: 0.3rem;
-  font-size: 0.8rem;
+.edit-btn {
   color: var(--light-text);
 }
 
-.error-message {
+.edit-btn:hover {
+  color: var(--primary-color);
+  background-color: rgba(74, 111, 165, 0.1);
+}
+
+.delete-btn {
+  color: var(--light-text);
+}
+
+.delete-btn:hover {
   color: var(--priority-high);
   background-color: rgba(231, 76, 60, 0.1);
-  padding: 0.8rem;
-  border-radius: var(--border-radius);
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
 }
 
-.error-close {
-  font-size: 1.2rem;
+/* Complete button styles */
+.complete-btn {
+  color: var(--light-text);
   font-weight: bold;
-  margin-left: 1rem;
-  opacity: 0.6;
 }
 
-.error-close:hover {
-  opacity: 1;
+.complete-btn:hover {
+  color: var(--status-completed);
+  background-color: rgba(39, 174, 96, 0.1);
 }
 
-/* Responsive design */
-@media (min-width: 768px) {
-  .task-dashboard {
-    padding: 2.5rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .task-dashboard-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+.complete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  /* Responsive design */
+  @media (min-width: 768px) {
+    .task-dashboard {
+      padding: 2.5rem;
+    }
   }
 
-  .task-grid {
-    grid-template-columns: 1fr;
+  @media (max-width: 767px) {
+    .task-dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .task-grid {
+      grid-template-columns: 1fr;
+    }
   }
-}

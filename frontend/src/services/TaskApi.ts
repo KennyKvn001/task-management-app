@@ -7,7 +7,6 @@ export interface TaskRequest {
   assignedUserIds: number[];
 }
 
-// API base URL matches the endpoint in TaskResource.java
 const API_BASE_URL = '/tasks';
 
 export const TaskApi = {
@@ -31,8 +30,6 @@ export const TaskApi = {
 
   createTask: async (task: TaskRequest): Promise<Task> => {
     const token = localStorage.getItem('token');
-    // Log the exact payload we're sending to help debug
-    console.log('Creating task with payload:', JSON.stringify(task));
 
     const response = await fetch(`${API_BASE_URL}/new`, {
       method: 'POST',
@@ -45,7 +42,6 @@ export const TaskApi = {
         title: task.title,
         description: task.description,
         dueDate: task.dueDate,
-        // Ensure assignedUserIds is properly formatted as a Set
         assignedUserIds: task.assignedUserIds
       }),
     });
@@ -61,7 +57,6 @@ export const TaskApi = {
 
   updateTask: async (id: number, task: TaskRequest): Promise<Task> => {
     const token = localStorage.getItem('token');
-    // Log the exact payload we're sending to help debug
     console.log('Updating task with payload:', JSON.stringify(task));
 
     const response = await fetch(`${API_BASE_URL}/${id}`, {
@@ -75,7 +70,6 @@ export const TaskApi = {
         title: task.title,
         description: task.description,
         dueDate: task.dueDate,
-        // Ensure assignedUserIds is properly formatted as a Set
         assignedUserIds: task.assignedUserIds
       }),
     });
@@ -102,10 +96,28 @@ export const TaskApi = {
     if (!response.ok) {
       throw new Error(`Failed to delete task: ${response.status}`);
     }
+  },
+
+  markTaskComplete: async (id: number): Promise<Task> => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/${id}/complete`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to mark task as complete: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return mapResponseToTask(data);
   }
 };
 
-// Helper to map backend response to frontend Task format
 function mapResponseToTask(data: any): Task {
   console.log('Mapping response to task:', data);
   return {

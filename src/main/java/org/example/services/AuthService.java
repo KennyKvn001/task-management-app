@@ -42,9 +42,9 @@ public class AuthService {
             throw new IllegalArgumentException("User is already registered");
         }
 
-        UserRole managerRole = roleRepository.findByName("MANAGER");
+        UserRole managerRole = roleRepository.findByName("USER");
         if (managerRole == null) {
-            managerRole = new UserRole("MANAGER");
+            managerRole = new UserRole("USER");
             roleRepository.persist(managerRole);
         }
         user.setRole(managerRole);

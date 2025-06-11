@@ -1,0 +1,134 @@
+:root {
+  --primary-color: #4a6fa5;
+  --secondary-color: #5d7eaa;
+  --text-color: #333333;
+  --light-text: #666666;
+  --background-color: #ffffff;
+  --light-background: #f5f7fa;
+  --border-radius: 6px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s ease;
+  --danger-color: #e74c3c;
+  --danger-hover: #c0392b;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirm-dialog {
+  background-color: white;
+  border-radius: var(--border-radius);
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header section */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header-confirm h2 {
+  margin: 0;
+  color: var(--danger-color);
+  font-size: 1.4rem;
+}
+
+.modal-content {
+  padding: 1.5rem;
+}
+
+.modal-content p {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.cancel-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  background-color: #f1f1f1;
+  border: none;
+  color: var(--text-color);
+}
+
+.cancel-btn:hover {
+  background-color: #e4e4e4;
+}
+
+.delete-btn-confirmation {
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  background-color: var(--danger-color);
+  color: white;
+  border: none;
+}
+
+.delete-btn:hover {
+  background-color: var(--danger-hover);
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .cancel-btn, .delete-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* On mobile, put delete button first in the visual order */
+  .delete-btn {
+    order: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .cancel-btn {
+    order: 2;
+  }
+}

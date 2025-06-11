@@ -25,7 +25,7 @@ public class TaskResource {
     // Use SecurityContext to obtain the authenticated user's identifier
     @POST
     @Path("/new")
-    @RolesAllowed({"MANAGER", "USER"})
+    @RolesAllowed("USER")
     @Transactional
     public Response createTask(@Context SecurityContext securityContext, TaskRequestDTO dto) {
         String creatorEmail = securityContext.getUserPrincipal().getName();
@@ -35,7 +35,7 @@ public class TaskResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed("MANAGER")
+    @RolesAllowed("USER")
     @Transactional
     public Response updateTask(@PathParam("id") Long id, TaskRequestDTO dto) {
         TaskResponseDTO response = taskService.updateTask(id, dto);
@@ -57,7 +57,7 @@ public class TaskResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("MANAGER")
+    @RolesAllowed("USER")
     @Transactional
     public Response deleteTask(@PathParam("id") Long id) {
         taskService.deleteTask(id);
@@ -66,7 +66,7 @@ public class TaskResource {
 
     @POST
     @Path("/{id}/complete")
-    @RolesAllowed("MANAGER")
+    @RolesAllowed("USER")
     @Transactional
     public Response markTaskCompleted(@PathParam("id") Long taskId, @QueryParam("userId") Long userId) {
         TaskResponseDTO task = taskService.markTaskCompleted(taskId, userId);

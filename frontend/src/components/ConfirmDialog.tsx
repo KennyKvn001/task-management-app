@@ -1,3 +1,5 @@
+import "../theme/confirmDialog.css";
+
 interface ConfirmDialogProps {
   isOpen: boolean;
   title: string;
@@ -12,7 +14,7 @@ export function ConfirmDialog({ isOpen, title, message, onConfirm, onCancel }: C
   return (
     <div className="modal-backdrop">
       <div className="confirm-dialog">
-        <div className="modal-header">
+        <div className="modal-header-confirm">
           <h2>{title}</h2>
         </div>
         <div className="modal-content">
@@ -20,7 +22,7 @@ export function ConfirmDialog({ isOpen, title, message, onConfirm, onCancel }: C
         </div>
         <div className="modal-footer">
           <button className="cancel-btn" onClick={onCancel}>Cancel</button>
-          <button className="delete-btn" onClick={onConfirm}>Delete</button>
+          <button className="delete-btn-confirmation" onClick={onConfirm}>Delete</button>
         </div>
       </div>
     </div>

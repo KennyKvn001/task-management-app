@@ -34,9 +34,9 @@ public class UserApiservice {
     @Transactional
     public void syncUsers() {
 
-        UserRole userRole = roleRepository.findByName("USER");
+        UserRole userRole = roleRepository.findByName("PUBLIC");
         if (userRole == null) {
-            userRole = new UserRole("USER");
+            userRole = new UserRole("PUBLIC");
             userApiRepository.getEntityManager().persist(userRole);
         }
 
@@ -75,7 +75,7 @@ public class UserApiservice {
     }
 
     private boolean hasCustomRole(User user) {
-        return user.getRole() != null && !"USER".equalsIgnoreCase(user.getRole().getRole());
+        return user.getRole() != null && !"PUBLIC".equalsIgnoreCase(user.getRole().getRole());
     }
 
     public List<User> getAllUsers() {
