@@ -12,6 +12,7 @@ export interface Task {
   dueDate: string;
   createdBy: string;
   assignedTo: string;
+  completedBy?: string; // Add completedBy field to show who completed the task
 }
 
 interface TaskCardProps {
@@ -25,13 +26,10 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
 
-  // Check if current user is the creator of the task
   const isCreator = username === task.createdBy;
 
-  // Check if current user is assigned to the task
   const isAssigned = task.assignedTo.split(',').map(name => name.trim()).includes(username);
 
-  // Check if the task is already completed
   const isCompleted = task.status === 'COMPLETED';
 
   const getStatusClass = (status: string) => {
@@ -135,6 +133,9 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
           )}
           {task.assignedTo !== username && (
             <div className="task-assigned-to">Assigned to: {task.assignedTo}</div>
+          )}
+          {isCreator && task.completedBy && (
+            <div className="task-completed-by">Completed by: {task.completedBy}</div>
           )}
         </div>
       </div>

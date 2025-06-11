@@ -7,6 +7,16 @@ export interface TaskRequest {
   assignedUserIds: number[];
 }
 
+interface TaskResponse {
+  id: number;
+  title: string;
+  description: string | null;
+  dueDate: string;
+  createdByUsername: string;
+  assignedUsernames: string[];
+  completedUsernames: string[];
+}
+
 const API_BASE_URL = '/tasks';
 
 export const TaskApi = {
@@ -118,17 +128,43 @@ export const TaskApi = {
   }
 };
 
-function mapResponseToTask(data: any): Task {
-  console.log('Mapping response to task:', data);
+function mapResponseToTask(data: TaskResponse): Task {
+  const assignedUsernames = Array.isArray(data.assignedUsernames) ? data.assignedUsernames : [];
+  const completedUsernames = Array.isArray(data.completedUsernames) ? data.completedUsernames : [];
+  const assignedCount = assignedUsernames.length;
+  const completedCount = completedUsernames.length;
+
+  const currentUsername = localStorage.getItem('username');
+
+  let status: 'TODO' | 'IN_PROGRESS' | 'COMPLETED' = 'TODO';
+
+  const isAssignee = assignedUsernames.some(username =>
+    username.toLowerCase() === currentUsername?.toLowerCase()
+  );
+  const hasCompleted = completedUsernames.some(username =>
+    username.toLowerCase() === currentUsername?.toLowerCase()
+  );
+
+  if (isAssignee) {
+    status = hasCompleted ? 'COMPLETED' : 'TODO';
+  } else {
+    if (completedCount === 0) {
+      status = 'TODO';
+    } else if (completedCount < assignedCount) {
+      status = 'IN_PROGRESS';
+    } else if (completedCount === assignedCount && assignedCount > 0) {
+      status = 'COMPLETED';
+    }
+  }
+
   return {
     id: data.id,
     title: data.title,
     description: data.description || "",
-    status: data.completedUsernames?.length > 0 ? 'COMPLETED' : 'TODO',
+    status: status,
     dueDate: data.dueDate,
     createdBy: data.createdByUsername,
-    assignedTo: Array.isArray(data.assignedUsernames)
-      ? data.assignedUsernames.join(', ')
-      : data.assignedUsernames || ""
+    assignedTo: assignedUsernames.join(', ') || "",
+    completedBy: completedUsernames.length > 0 ? completedUsernames.join(', ') : ""
   };
 }
