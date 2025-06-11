@@ -48,7 +48,7 @@
 }
 
 /* Header section */
-.modal-header {
+.modal-header-confirm {
   display: flex;
   justify-content: space-between;
   align-items: center;

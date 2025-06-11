@@ -3,6 +3,7 @@ import '../theme/home.css';
 import { Header } from '../components/Header';
 import { useAuth } from '../context/AuthContext';
 import { UpcomingTasks } from '../components/UpcomingTasks';
+import taskMasterImage from '../assets/taskmaster.jpg';
 
 export function Home() {
   const { isAuthenticated } = useAuth();
@@ -32,12 +33,8 @@ export function Home() {
           </div>
           <div className="hero-image">
             <img
-              src="/src/assets/task-management.svg"
+              src={taskMasterImage}
               alt="Task Management Illustration"
-              onError={(e) => {
-                e.currentTarget.src = "https://placehold.co/600x400?text=TaskMaster";
-                e.currentTarget.onerror = null;
-              }}
             />
           </div>
         </section>

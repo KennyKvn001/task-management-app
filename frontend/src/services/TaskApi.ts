@@ -61,7 +61,6 @@ export const TaskApi = {
     }
 
     const data = await response.json();
-    console.log('Response from server after create:', data);
     return mapResponseToTask(data);
   },
 

@@ -9,11 +9,6 @@
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   --transition: all 0.3s ease;
 
-  /* Task-specific colors */
-  --priority-high: #e74c3c;
-  --priority-medium: #f39c12;
-  --priority-low: #2ecc71;
-
   --status-todo: #95a5a6;
   --status-in-progress: #3498db;
   --status-completed: #27ae60;
@@ -78,7 +73,6 @@
   border-bottom: 1px solid #eee;
 }
 
-/* Task Grid */
 .task-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -220,11 +214,6 @@
 
 .delete-btn {
   color: var(--light-text);
-}
-
-.delete-btn:hover {
-  color: var(--priority-high);
-  background-color: rgba(231, 76, 60, 0.1);
 }
 
 .complete-btn {

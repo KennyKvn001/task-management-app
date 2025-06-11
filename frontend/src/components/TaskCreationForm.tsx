@@ -71,7 +71,6 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
         setSelectedUsers(matchingUsers);
       }
     } catch (err) {
-      console.error("Error fetching users:", err);
       setError(err instanceof Error ? err.message : "Failed to load users");
       setUsers([]);
     } finally {
@@ -81,14 +80,11 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Extract values from refs
     const title = titleRef.current?.value.trim() || "";
     const description = descriptionRef.current?.value || "";
     const dueDate = dueDateRef.current?.value || "";
     const assignedUserIds = selectedUsers.map(user => user.externalId);
 
-    // Validate required fields
     if (!title) {
       setError("Title is required");
       return;
@@ -105,8 +101,6 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
       dueDate,
       assignedUserIds
     };
-
-    console.log("Submitting form with data:", formData);
     setError(null);
     setIsSaving(true);
 
