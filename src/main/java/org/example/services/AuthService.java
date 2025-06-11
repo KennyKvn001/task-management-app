@@ -38,6 +38,10 @@ public class AuthService {
             throw new IllegalArgumentException("User not found. Only synced users can register.");
         }
 
+        if (!user.getEmail().equals(request.email())) {
+            throw new IllegalArgumentException("Username and email do not match. Please provide the correct information.");
+        }
+
         if (user.getPasswordHash() != null) {
             throw new IllegalArgumentException("User is already registered");
         }
