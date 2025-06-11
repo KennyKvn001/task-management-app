@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import '../theme/home.css';
 import { Header } from '../components/Header';
 import { useAuth } from '../context/AuthContext';
+import { UpcomingTasks } from '../components/UpcomingTasks';
 
 export function Home() {
   const { isAuthenticated } = useAuth();
@@ -40,6 +41,8 @@ export function Home() {
             />
           </div>
         </section>
+
+        {isAuthenticated && <UpcomingTasks />}
 
         <section className="features-section">
           <h2>Key Features</h2>

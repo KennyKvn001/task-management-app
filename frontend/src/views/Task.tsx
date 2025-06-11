@@ -15,7 +15,6 @@ export function Task() {
     isLoading,
     error,
     fetchTasks,
-    setError
   } = useTask();
 
   const { isAuthenticated } = useAuth();
@@ -23,7 +22,6 @@ export function Task() {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [currentTask, setCurrentTask] = useState<TaskType | undefined>();
 
-  // Single useEffect for initial data load
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -58,7 +56,7 @@ export function Task() {
         </div>
 
         {error && (
-          <div className="error-message" onClick={() => setError(null)}>
+          <div className="error-message">
             {error}
             <span className="error-close">×</span>
           </div>

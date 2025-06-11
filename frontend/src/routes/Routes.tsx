@@ -6,6 +6,7 @@ import {Home} from "../views/Home.tsx";
 import {Register} from "../views/Register.tsx";
 import {Login} from "../views/Login.tsx";
 import {Task} from "../views/Task.tsx";
+import {ProtectedRoute} from "./ProtectedRoutes.tsx";
 
 const router = createBrowserRouter([
     {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/tasks',
-        element: <Task/>
+        element: <ProtectedRoute><Task/></ProtectedRoute>
     },
     {
         path:'*',

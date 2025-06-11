@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { UserApi, type User } from "../services/UserApi";
 import { useTask } from "../context/TaskContext";
 import type { Task } from "./TaskCard";
@@ -19,12 +19,12 @@ interface TaskCreationModalProps {
 
 export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalProps) {
   const { createTask, updateTask } = useTask();
-  const [formData, setFormData] = useState<TaskFormData>({
-    title: "",
-    description: "",
-    dueDate: "",
-    assignedUserIds: [],
-  });
+  // Form refs for direct DOM access instead of controlled components
+  const formRef = useRef<HTMLFormElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const dueDateRef = useRef<HTMLInputElement>(null);
+
   const [error, setError] = useState<string | null>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,19 +34,14 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
   useEffect(() => {
     if (isOpen) {
       if (task) {
-        setFormData({
-          title: task.title,
-          description: task.description || "",
-          dueDate: task.dueDate.split('T')[0],
-          assignedUserIds: [],
-        });
+        if (titleRef.current) titleRef.current.value = task.title;
+        if (descriptionRef.current) descriptionRef.current.value = task.description || "";
+        if (dueDateRef.current) dueDateRef.current.value = task.dueDate.split('T')[0];
+
+        setSelectedUsers([]);
       } else {
-        setFormData({
-          title: "",
-          description: "",
-          dueDate: "",
-          assignedUserIds: [],
-        });
+        if (formRef.current) formRef.current.reset();
+        setSelectedUsers([]);
       }
 
       fetchUsers();
@@ -74,14 +69,6 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
             assigneeNames.includes(user.username)
         );
         setSelectedUsers(matchingUsers);
-
-        if (matchingUsers.length > 0) {
-          const userIds = matchingUsers.map(user => user.externalId);
-          setFormData(prev => ({
-            ...prev,
-            assignedUserIds: userIds
-          }));
-        }
       }
     } catch (err) {
       console.error("Error fetching users:", err);
@@ -94,15 +81,30 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title.trim()) {
+
+    // Extract values from refs
+    const title = titleRef.current?.value.trim() || "";
+    const description = descriptionRef.current?.value || "";
+    const dueDate = dueDateRef.current?.value || "";
+    const assignedUserIds = selectedUsers.map(user => user.externalId);
+
+    // Validate required fields
+    if (!title) {
       setError("Title is required");
       return;
     }
 
-    if (!formData.dueDate) {
+    if (!dueDate) {
       setError("Due date is required");
       return;
     }
+
+    const formData: TaskFormData = {
+      title,
+      description,
+      dueDate,
+      assignedUserIds
+    };
 
     console.log("Submitting form with data:", formData);
     setError(null);
@@ -122,14 +124,6 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const userId = Number(e.target.value);
     if (!userId) return;
@@ -137,12 +131,8 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
     const selectedUser = users.find(user => user.externalId === userId);
     if (!selectedUser) return;
 
-    if (!formData.assignedUserIds.includes(userId)) {
+    if (!selectedUsers.some(user => user.externalId === userId)) {
       setSelectedUsers(prev => [...prev, selectedUser]);
-      setFormData(prev => ({
-        ...prev,
-        assignedUserIds: [...prev.assignedUserIds, userId]
-      }));
     }
 
     e.target.value = "";
@@ -150,10 +140,6 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
 
   const removeUser = (userId: number) => {
     setSelectedUsers(prev => prev.filter(user => user.externalId !== userId));
-    setFormData(prev => ({
-      ...prev,
-      assignedUserIds: prev.assignedUserIds.filter(id => id !== userId)
-    }));
   };
 
   const handleRemoveUserClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -176,7 +162,7 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
               ×
             </button>
           </div>
-          <form onSubmit={handleSubmit}>
+          <form ref={formRef} onSubmit={handleSubmit}>
             <div className="modal-content">
               {error && <div className="error-message">{error}</div>}
 
@@ -186,8 +172,7 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
                     type="text"
                     id="title"
                     name="title"
-                    value={formData.title}
-                    onChange={handleChange}
+                    ref={titleRef}
                     required
                     disabled={isSaving}
                     placeholder="Enter task title"
@@ -198,8 +183,7 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
                 <textarea
                     id="description"
                     name="description"
-                    value={formData.description}
-                    onChange={handleChange}
+                    ref={descriptionRef}
                     disabled={isSaving}
                     placeholder="Enter task description"
                     rows={3}
@@ -211,8 +195,7 @@ export function TaskCreationForm({ isOpen, onClose, task }: TaskCreationModalPro
                     type="date"
                     id="dueDate"
                     name="dueDate"
-                    value={formData.dueDate}
-                    onChange={handleChange}
+                    ref={dueDateRef}
                     required
                     disabled={isSaving}
                 />

@@ -136,24 +136,6 @@
   font-weight: 600;
 }
 
-/* Priority styling */
-.task-priority {
-  color: white;
-}
-
-.priority-high {
-  background-color: var(--priority-high);
-}
-
-.priority-medium {
-  background-color: var(--priority-medium);
-}
-
-.priority-low {
-  background-color: var(--priority-low);
-}
-
-/* Status styling */
 .status-todo {
   background-color: var(--status-todo);
   color: white;
@@ -182,7 +164,6 @@
   font-weight: 500;
 }
 
-/* Messages */
 .no-tasks-message {
   padding: 2rem;
   text-align: center;
@@ -201,8 +182,6 @@
   color: var(--primary-color);
 }
 
-
-/* Shared status messages */
 .loading-message, .no-users-message {
   padding: 10px;
   text-align: center;
@@ -210,7 +189,6 @@
   font-style: italic;
 }
 
-/* Task Actions */
 .task-actions {
   display: flex;
   gap: 0.5rem;
@@ -249,7 +227,6 @@
   background-color: rgba(231, 76, 60, 0.1);
 }
 
-/* Complete button styles */
 .complete-btn {
   color: var(--light-text);
   font-weight: bold;
@@ -280,4 +257,4 @@
     .task-grid {
       grid-template-columns: 1fr;
     }
-  }
+  }}

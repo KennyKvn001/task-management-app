@@ -12,7 +12,7 @@ export interface Task {
   dueDate: string;
   createdBy: string;
   assignedTo: string;
-  completedBy?: string; // Add completedBy field to show who completed the task
+  completedBy?: string;
 }
 
 interface TaskCardProps {
@@ -28,7 +28,7 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
 
   const isCreator = username === task.createdBy;
 
-  const isAssigned = task.assignedTo.split(',').map(name => name.trim()).includes(username);
+  const isAssigned = task.assignedTo.split(',').map(name => name.trim()).includes(username || "");
 
   const isCompleted = task.status === 'COMPLETED';
 
@@ -59,7 +59,6 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
       await deleteTask(task.id);
       setShowDeleteConfirm(false);
     } catch (error) {
-      // Error handling is done in the context
       setShowDeleteConfirm(false);
     }
   };
@@ -92,8 +91,6 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
                   ✎
                 </button>
               )}
-
-              {/* Only creators can delete tasks */}
               {isCreator && (
                 <button
                   className="delete-btn"
@@ -103,8 +100,6 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
                   ×
                 </button>
               )}
-
-              {/* Assigned users can mark tasks as complete */}
               {isAssigned && !isCompleted && (
                 <button
                   className="complete-btn"

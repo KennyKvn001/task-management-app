@@ -1,0 +1,118 @@
+:root {
+  --primary-color: #4a6fa5;
+  --secondary-color: #5d7eaa;
+  --text-color: #333333;
+  --light-text: #666666;
+  --background-color: #ffffff;
+  --light-background: #f5f7fa;
+  --border-radius: 6px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s ease;
+}
+
+/* Upcoming tasks section (Coming Soon) */
+.upcoming-tasks-section {
+  background-color: var(--light-background);
+  padding: 3rem 5%;
+  border-radius: 8px;
+  margin: 0 5% 3rem;
+}
+
+.upcoming-tasks-section h2 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-description {
+  color: var(--light-text);
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.upcoming-tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.upcoming-task-item {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  border-left: 4px solid var(--primary-color);
+}
+
+.upcoming-task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.upcoming-task-title {
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+.upcoming-task-due {
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+.view-all-tasks {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.view-all-tasks a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.view-all-tasks a:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
+.loading-message, .no-upcoming-tasks {
+  background-color: white;
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: var(--border-radius);
+  color: var(--light-text);
+  box-shadow: var(--box-shadow);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .upcoming-task-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .upcoming-task-due {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .upcoming-tasks-section {
+    padding: 2rem 1rem;
+    margin: 0 1rem 2rem;
+  }
+
+  .upcoming-tasks-section h2 {
+    font-size: 1.5rem;
+  }
+}
