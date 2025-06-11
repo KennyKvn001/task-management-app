@@ -1,15 +1,3 @@
-:root {
-  --primary-color: #4a6fa5;
-  --secondary-color: #5d7eaa;
-  --text-color: #333333;
-  --light-text: #666666;
-  --background-color: #ffffff;
-  --light-background: #f5f7fa;
-  --border-radius: 6px;
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  --transition: all 0.3s ease;
-}
-
 .app-header {
   display: flex;
   justify-content: space-between;

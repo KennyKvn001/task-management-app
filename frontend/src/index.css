@@ -11,6 +11,23 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --primary-color: #4a6fa5;
+  --secondary-color: #5d7eaa;
+  --text-color: #333333;
+  --light-text: #666666;
+  --background-color: #ffffff;
+  --light-background: #f5f7fa;
+  --border-radius: 6px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --transition: all 0.3s ease;
+
+  --status-todo: #95a5a6;
+  --status-in-progress: #3498db;
+  --status-completed: #27ae60;
+
+  --danger-color: #e74c3c;
+  --danger-hover: #c0392b;
 }
 
 * {
