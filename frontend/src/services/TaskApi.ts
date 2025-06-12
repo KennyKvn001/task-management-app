@@ -133,27 +133,15 @@ function mapResponseToTask(data: TaskResponse): Task {
   const assignedCount = assignedUsernames.length;
   const completedCount = completedUsernames.length;
 
-  const currentUsername = localStorage.getItem('username');
 
   let status: 'TODO' | 'IN_PROGRESS' | 'COMPLETED' = 'TODO';
 
-  const isAssignee = assignedUsernames.some(username =>
-    username.toLowerCase() === currentUsername?.toLowerCase()
-  );
-  const hasCompleted = completedUsernames.some(username =>
-    username.toLowerCase() === currentUsername?.toLowerCase()
-  );
-
-  if (isAssignee) {
-    status = hasCompleted ? 'COMPLETED' : 'TODO';
-  } else {
-    if (completedCount === 0) {
-      status = 'TODO';
-    } else if (completedCount < assignedCount) {
-      status = 'IN_PROGRESS';
-    } else if (completedCount === assignedCount && assignedCount > 0) {
-      status = 'COMPLETED';
-    }
+  if (completedCount === 0) {
+    status = 'TODO';
+  } else if (completedCount < assignedCount) {
+    status = 'IN_PROGRESS';
+  } else if (completedCount === assignedCount && assignedCount > 0) {
+    status = 'COMPLETED';
   }
 
   return {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTask } from "../context/TaskContext";
+import { useViewContext } from "../context/ViewContext";
 import { ConfirmDialog } from "./ConfirmDialog";
 import "../theme/task.css";
 
@@ -26,13 +27,26 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
 
+  const viewContext = useViewContext();
+
   const isCreator = username === task.createdBy;
 
   const isAssigned = task.assignedTo.split(',').map(name => name.trim()).includes(username || "");
 
-  const isCompleted = task.status === 'COMPLETED';
+  const isSelfAssigned = isCreator && isAssigned;
+
+  const completedUsers = task.completedBy ? task.completedBy.split(',').map(name => name.trim()) : [];
+
+  const hasUserCompletedTask = username ? completedUsers.includes(username) : false;
+
+
+  const canMarkComplete = isAssigned && !hasUserCompletedTask;
 
   const getStatusClass = (status: string) => {
+    if (viewContext === 'assigned') {
+      return hasUserCompletedTask ? 'status-completed' : 'status-todo';
+    }
+
     switch (status) {
       case 'TODO': return 'status-todo';
       case 'IN_PROGRESS': return 'status-in-progress';
@@ -81,8 +95,7 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
           <h3>{task.title}</h3>
           {isAuthenticated && (
             <div className="task-actions">
-              {/* Only creators can edit tasks */}
-              {isCreator && (
+              {isCreator && (viewContext === 'created' || !isSelfAssigned) && (
                 <button
                   className="edit-btn"
                   onClick={() => onEdit(task)}
@@ -91,7 +104,7 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
                   ✎
                 </button>
               )}
-              {isCreator && (
+              {isCreator && (viewContext === 'created' || !isSelfAssigned) && (
                 <button
                   className="delete-btn"
                   onClick={handleDelete}
@@ -100,7 +113,7 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
                   ×
                 </button>
               )}
-              {isAssigned && !isCompleted && (
+              {isAssigned && canMarkComplete && viewContext === 'assigned' && (
                 <button
                   className="complete-btn"
                   onClick={handleMarkAsComplete}
@@ -116,7 +129,9 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
         <p className="task-description">{task.description}</p>
         <div className="task-meta">
           <span className={`task-status ${getStatusClass(task.status)}`}>
-            {task.status.replace('_', ' ')}
+            {viewContext === 'assigned' 
+              ? (hasUserCompletedTask ? 'COMPLETED' : 'TODO')
+              : task.status.replace('_', ' ')}
           </span>
           <span className="task-due-date">
             Due: {formatDate(task.dueDate)}
@@ -129,8 +144,10 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
           {task.assignedTo !== username && (
             <div className="task-assigned-to">Assigned to: {task.assignedTo}</div>
           )}
-          {isCreator && task.completedBy && (
-            <div className="task-completed-by">Completed by: {task.completedBy}</div>
+          {task.completedBy && (
+            <div className="task-completed-by">
+              Completed by: {task.completedBy}
+            </div>
           )}
         </div>
       </div>

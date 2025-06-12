@@ -1,4 +1,5 @@
 import { TaskCard, type Task } from "./TaskCard";
+import { ViewContextProvider } from "../context/ViewContext";
 import "../theme/task.css";
 
 interface CreatedTasksSectionProps {
@@ -18,11 +19,12 @@ export function CreatedTasksSection({ tasks, isLoading, onEdit }: CreatedTasksSe
       <div className="task-grid">
         {tasks.length > 0 ? (
           tasks.map(task => (
-            <TaskCard
-              key={`created-${task.id}`}
-              task={task}
-              onEdit={onEdit}
-            />
+            <ViewContextProvider key={`created-${task.id}`} viewType="created">
+              <TaskCard
+                task={task}
+                onEdit={onEdit}
+              />
+            </ViewContextProvider>
           ))
         ) : (
           <div className="no-tasks-message">

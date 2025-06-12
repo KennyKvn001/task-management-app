@@ -8,7 +8,6 @@ export function UpcomingTasks() {
   const { username, isAuthenticated } = useAuth();
   const { createdTasks, assignedTasks, isLoading } = useTask();
 
-  // Calculate tasks due in the next 7 days
   const upcomingTasks = useMemo(() => {
     if (!isAuthenticated) return [];
 
@@ -16,13 +15,22 @@ export function UpcomingTasks() {
     const sevenDaysLater = new Date();
     sevenDaysLater.setDate(today.getDate() + 7);
 
-    // Combine created and assigned tasks
-    const allUserTasks = [...createdTasks, ...assignedTasks];
+    const uniqueTaskMap = new Map();
 
-    // Filter tasks:
-    // 1. Not completed
-    // 2. Due within the next 7 days
-    // 3. Assigned to the current user
+    assignedTasks.forEach(task => {
+      if (!uniqueTaskMap.has(task.id)) {
+        uniqueTaskMap.set(task.id, task);
+      }
+    });
+
+    createdTasks.forEach(task => {
+      if (!uniqueTaskMap.has(task.id)) {
+        uniqueTaskMap.set(task.id, task);
+      }
+    });
+
+    const allUserTasks = Array.from(uniqueTaskMap.values());
+
     return allUserTasks.filter((task) => {
       const dueDate = new Date(task.dueDate);
       const isUpcoming = dueDate >= today && dueDate <= sevenDaysLater;
@@ -33,7 +41,6 @@ export function UpcomingTasks() {
     });
   }, [createdTasks, assignedTasks, isAuthenticated, username]);
 
-  // Format date to a readable string
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
