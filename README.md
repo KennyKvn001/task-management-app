@@ -31,7 +31,7 @@ A full-stack task management application built with Quarkus and React. This appl
 1. Make sure PostgreSQL is installed and running
 2. Create a database for the application (default configuration uses username: postgres, password: postgres)
 
-### Generate JWT Keys (Optional if not already created)
+### Generate JWT Keys (for Jwt authentication setup)
 The application uses JWT for authentication. If you need to generate new keys:
 
 ```shell script
@@ -41,7 +41,7 @@ The application uses JWT for authentication. If you need to generate new keys:
 ### Environment Variables
 Set the following environment variables for JWT configuration:
 - `PUBLICKEY_LOCATION` - Path to public key (default: src/main/resources/keys/publicKey.pem)
-- `VERIFY_ISSUER` - JWT issuer to verify
+- `VERIFY_ISSUER` - JWT issuer to verify(project name)
 - `SIGN_KEY_LOCATION` - Path to private key (default: src/main/resources/keys/privateKey.pem)
 
 ## Running the Application
