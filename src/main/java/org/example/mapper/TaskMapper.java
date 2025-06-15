@@ -1,6 +1,5 @@
 package org.example.mapper;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import org.example.entities.Task;
 import org.example.entities.User;
 import org.example.task.dtos.TaskRequestDTO;
@@ -11,8 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@ApplicationScoped
 public class TaskMapper {
+
+    private TaskMapper() {}
 
     public static Task toEntity(TaskRequestDTO dto, User creator, Set<User> assignedUsers) {
         Task task = new Task(dto.title(), dto.description(), dto.dueDate(), creator);

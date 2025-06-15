@@ -7,6 +7,7 @@ import org.example.entities.User;
 import org.example.entities.Geo;
 
 public class UserApiMapper {
+    private UserApiMapper() {}
 
     public static User toEntity(UserApiDTO dto) {
         User user = new User();
