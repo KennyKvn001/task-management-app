@@ -19,7 +19,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
     const [role, setRole] = useState<string | null>((localStorage.getItem('role'))
     );
 
-    const isAuthenticated = !!token;
+    const isAuthenticated = !!token && !!username && !!role && role === 'USER';
 
     const login = async (email: string, password: string) => {
         const response = await Api.login({ email, password });
