@@ -15,17 +15,17 @@ import org.example.repository.UserApiRepository;
 import java.util.List;
 
 @ApplicationScoped
-public class UserApiservice {
+public class UserApiService {
 
     private final RoleRepository roleRepository;
-    @RestClient
-    UserApiClient userApiClient;
     private final UserApiRepository userApiRepository;
+    private final UserApiClient userApiClient;
 
     @Inject
-    public UserApiservice(UserApiRepository userApiRepository, RoleRepository roleRepository) {
+    public UserApiService(UserApiRepository userApiRepository, RoleRepository roleRepository, @RestClient UserApiClient userApiClient) {
         this.userApiRepository = userApiRepository;
         this.roleRepository = roleRepository;
+        this.userApiClient = userApiClient;
     }
 
     @Transactional

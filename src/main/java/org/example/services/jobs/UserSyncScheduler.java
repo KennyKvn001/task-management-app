@@ -4,7 +4,7 @@ import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import org.example.services.UserApiservice;
+import org.example.services.UserApiService;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class UserSyncScheduler {
     Scheduler scheduler;
 
     @Inject
-    UserApiservice userApiService;
+    UserApiService userApiService;
 
     public void onStart(@Observes StartupEvent event) {
         LOG.info("Initializing user synchronization scheduler...");

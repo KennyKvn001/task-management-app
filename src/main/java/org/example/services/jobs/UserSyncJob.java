@@ -3,7 +3,7 @@ package org.example.services.jobs;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.example.services.UserApiservice;
+import org.example.services.UserApiService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -16,7 +16,7 @@ public class UserSyncJob implements Job {
     private static final Logger LOG = LoggerFactory.getLogger(UserSyncJob.class);
 
     @Inject
-    UserApiservice userApiService;
+    UserApiService userApiService;
 
     @Override
     @Transactional

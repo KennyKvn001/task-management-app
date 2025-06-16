@@ -6,7 +6,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.example.entities.User;
-import org.example.services.UserApiservice;
+import org.example.services.UserApiService;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class UserApiResource {
 
     @Inject
-    UserApiservice userApiservice;
+    UserApiService userApiservice;
 
 
     @GET
